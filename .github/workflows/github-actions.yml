@@ -18,7 +18,7 @@ jobs:
           - name: Un-shallow submodules
             run: |
                 # This command fetches the full history for each submodule
-                git submodule foreach --recursive "git fetch --depth=10 origin"
+                git submodule foreach --recursive "git fetch --depth=300 origin"
           - name: Checkout submodules
             run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3
