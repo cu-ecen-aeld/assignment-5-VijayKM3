@@ -11,7 +11,14 @@ jobs:
         runs-on: self-hosted
         timeout-minutes: 360
         steps:
-          - uses: actions/checkout@v2
+          - uses: actions/checkout@v4
+              with:
+                fetch-depth: 1 # Keep a fast shallow clone
+                submodules: false # Do not try to update submodules yet
+          - name: Un-shallow submodules
+              run: |
+                # This command fetches the full history for each submodule
+                git submodule foreach --recursive "git fetch --depth=10 origin"
           - name: Checkout submodules
             run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3
