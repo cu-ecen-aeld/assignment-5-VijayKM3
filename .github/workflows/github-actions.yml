@@ -12,11 +12,11 @@ jobs:
         timeout-minutes: 360
         steps:
           - uses: actions/checkout@v4
-              with:
+            with:
                 fetch-depth: 1 # Keep a fast shallow clone
                 submodules: false # Do not try to update submodules yet
           - name: Un-shallow submodules
-              run: |
+            run: |
                 # This command fetches the full history for each submodule
                 git submodule foreach --recursive "git fetch --depth=10 origin"
           - name: Checkout submodules
