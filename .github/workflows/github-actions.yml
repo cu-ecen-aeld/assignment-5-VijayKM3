@@ -11,23 +11,12 @@ jobs:
         runs-on: self-hosted
         timeout-minutes: 360
         steps:
-          - uses: actions/checkout@v4
-            with:
-                fetch-depth: 1 
-                submodules: false 
-          # Add the SSH key to the agent
+          - uses: actions/checkout@v2
+          - name: Checkout submodules
+            run: git submodule update --init --recursive
           - uses: webfactory/ssh-agent@v0.5.3
             with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-         # - name: Un-shallow submodules
-         #   run: |
-                # This command fetches the full history for each submodule
-         #       git submodule foreach --recursive "git fetch --depth=300 origin"
-          - name: Update submodules
-            run: git submodule update --init --recursive
-         # - uses: webfactory/ssh-agent@v0.5.3
-         #   with:
-         #       ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           - name: Run full test
             env:
               GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
@@ -36,3 +25,4 @@ jobs:
             if: always()
             run: |
               ssh-add -D
+    
