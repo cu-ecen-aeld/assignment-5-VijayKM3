@@ -23,7 +23,7 @@ jobs:
          #   run: |
                 # This command fetches the full history for each submodule
          #       git submodule foreach --recursive "git fetch --depth=300 origin"
-          - name: Checkout submodules
+          - name: Update submodules
             run: git submodule update --init --recursive
          # - uses: webfactory/ssh-agent@v0.5.3
          #   with:
