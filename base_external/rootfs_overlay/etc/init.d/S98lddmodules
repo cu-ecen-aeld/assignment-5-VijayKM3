@@ -1,0 +1,77 @@
+#!/bin/sh
+#
+# /etc/init.d/S98lddmodules - manage LDD kernel modules
+#
+
+case "$1" in
+  start)
+    echo "Loading scull module..."
+    if modprobe scull; then
+      echo "scull loaded successfully"
+    else
+      echo "Failed to load scull"
+    fi
+
+    echo "Loading faulty module..."
+    if modprobe faulty; then
+      echo "faulty loaded successfully"
+      # auto-create /dev/faulty if missing
+      if [ ! -e /dev/faulty ]; then
+        major=$(grep faulty /proc/devices | awk '{print $1}')
+        if [ -n "$major" ]; then
+          echo "Creating /dev/faulty with major $major"
+          mknod /dev/faulty c $major 0
+          chmod 666 /dev/faulty
+        else
+          echo "Warning: faulty major not found in /proc/devices"
+        fi
+      fi
+    else
+      echo "Failed to load faulty"
+    fi
+
+    echo "Loading hello module..."
+    if modprobe hello; then
+      echo "hello loaded successfully"
+    else
+      echo "Failed to load hello"
+    fi
+    ;;
+
+  stop)
+    echo "Unloading hello module..."
+    if rmmod hello; then
+      echo "hello unloaded successfully"
+    else
+      echo "Failed to unload hello"
+    fi
+
+    echo "Unloading faulty module..."
+    if rmmod faulty; then
+      rm -f /dev/faulty
+      echo "faulty unloaded successfully"
+    else
+      echo "Failed to unload faulty"
+    fi
+
+    echo "Unloading scull module..."
+    if rmmod scull; then
+      echo "scull unloaded successfully"
+    else
+      echo "Failed to unload scull"
+    fi
+    ;;
+
+  restart)
+    $0 stop
+    $0 start
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
