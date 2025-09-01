@@ -4,10 +4,12 @@
 #
 ################################################################################
 
-LDD_VERSION = 1.0
+#LDD_VERSION = 1.0
 #LDD_SITE = /home/vijaykum/Assignment7   
-LDD_SITE = $(BR2_EXTERNAL)/package/ldd
-LDD_SITE_METHOD = local
+#LDD_SITE = $(BR2_EXTERNAL)/package/ldd
+LDD_VERSION = main
+LDD_SITE = https://github.com/cu-ecen-aeld/assignment-7-VijayKM3
+LDD_SITE_METHOD = git
 LDD_LICENSE = GPL-2.0
 LDD_LICENSE_FILES = COPYING
 

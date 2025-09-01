@@ -23,6 +23,8 @@ jobs:
               cd buildroot
               make BR2_EXTERNAL=../base_external aesd_qemu_defconfig
               # Clean only ldd package so it rebuilds, not the whole _work
+              rm -rf dl/ldd
+              rm -rf output/build/ldd-*
               make ldd-dirclean
           - name: Run full test
             env:
