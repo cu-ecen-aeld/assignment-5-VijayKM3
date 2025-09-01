@@ -17,6 +17,13 @@ jobs:
           - uses: webfactory/ssh-agent@v0.5.3
             with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # 🔹 Ensure Buildroot picks up config/package changes without full rebuild
+          - name: Refresh Buildroot config
+            run: |
+              cd buildroot
+              make BR2_EXTERNAL=../base_external aesd_assignments_defconfig
+              # Clean only ldd package so it rebuilds, not the whole _work
+              make ldd-dirclean
           - name: Run full test
             env:
               GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
