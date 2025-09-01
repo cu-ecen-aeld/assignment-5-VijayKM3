@@ -21,7 +21,7 @@ jobs:
           - name: Refresh Buildroot config
             run: |
               cd buildroot
-              make BR2_EXTERNAL=../base_external aesd_assignments_defconfig
+              make BR2_EXTERNAL=../base_external aesd_qemu_defconfig
               # Clean only ldd package so it rebuilds, not the whole _work
               make ldd-dirclean
           - name: Run full test
